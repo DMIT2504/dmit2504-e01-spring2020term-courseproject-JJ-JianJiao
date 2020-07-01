@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.GridLayout;
 
@@ -112,10 +113,12 @@ public class GameView extends GridLayout {
 
     private void addCards(int width, int height){
         Card card;
+
         for(int row = 0; row < 4; row++){
             for(int col = 0; col < 4; col++){
                 card = new Card(getContext());
                 card.setNum(0);
+//                card.setBackgroundResource(R.drawable.game_board_layout);
                 addView(card,width,height);
                 cardsMap[row][col] = card;
             }
@@ -185,8 +188,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[row][backCol].getNum());
                             cardsMap[row][backCol].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
-
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
                             col--;
                             merge = true;
                         }
@@ -194,7 +197,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[row][col].getNum()*2);
                             cardsMap[row][backCol].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             MainActivity.getMainActivity().addScore(cardsMap[row][col].getNum());
                             merge = true;
@@ -223,7 +227,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[row][forwardCol].getNum());
                             cardsMap[row][forwardCol].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             col++;
                             merge = true;
@@ -232,7 +237,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[row][col].getNum()*2);
                             cardsMap[row][forwardCol].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             MainActivity.getMainActivity().addScore(cardsMap[row][col].getNum());
                             merge = true;
@@ -259,7 +265,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[backRow][col].getNum());
                             cardsMap[backRow][col].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             row--;
                             merge = true;
@@ -267,7 +274,8 @@ public class GameView extends GridLayout {
                         else if(cardsMap[backRow][col].equals(cardsMap[row][col])){
                             cardsMap[row][col].setNum(cardsMap[row][col].getNum()*2);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             cardsMap[backRow][col].setNum(0);
                             MainActivity.getMainActivity().addScore(cardsMap[row][col].getNum());
@@ -295,7 +303,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[forwardRow][col].getNum());
                             cardsMap[forwardRow][col].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             row++;
                             merge = true;
@@ -304,7 +313,8 @@ public class GameView extends GridLayout {
                             cardsMap[row][col].setNum(cardsMap[row][col].getNum()*2);
                             cardsMap[forwardRow][col].setNum(0);
 
-                            zoomUpAnimation(cardsMap[row][col]);
+//                            zoomUpAnimation(cardsMap[row][col]);
+                            cellAnimationFactory(cardsMap[row][col]);
 
                             MainActivity.getMainActivity().addScore(cardsMap[row][col].getNum());
                             merge = true;
@@ -359,6 +369,46 @@ public class GameView extends GridLayout {
         scaleAnimation.setDuration(500);
         animationSet.addAnimation(scaleAnimation);
         animationSet.setFillAfter(false);
-        card.startAnimation(animationSet);
+        card.disPlayNumberTV.startAnimation(animationSet);
+    }
+
+
+    private void rotateAnimation(Card card){
+        RotateAnimation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(500);
+        animation.setInterpolator(context, android.R.anim.anticipate_interpolator);
+        card.disPlayNumberTV.startAnimation(animation);
+    }
+
+    private void cellAnimationFactory(Card card){
+        int number = Integer.valueOf(card.getNum());
+        switch(number){
+            case 4:
+                zoomUpAnimation(card);
+                break;
+            case 8:
+                rotateAnimation(card);
+                break;
+            case 16:
+                break;
+            case 32:
+                break;
+            case 64:
+                break;
+            case 128:
+                break;
+            case 256:
+                break;
+            case 512:
+                break;
+            case 1024:
+                break;
+            case 2048:
+                break;
+            case 4096:
+                break;
+        }
+//        zoomUpAnimation(card);
+//        rotateAnimation(card);
     }
 }

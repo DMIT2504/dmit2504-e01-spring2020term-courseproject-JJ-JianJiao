@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.w3c.dom.Text;
 
 public class Card extends FrameLayout {
 
@@ -32,6 +36,7 @@ public class Card extends FrameLayout {
         disPlayNumberTV = new TextView(getContext());
         disPlayNumberTV.setTextSize(40);
         disPlayNumberTV.setGravity(Gravity.CENTER);
+        disPlayNumberTV.setBackgroundResource(R.drawable.game_cell_border_layout);
 //        disPlayNumberTV.setPadding(15,15,0,0);
 //        disPlayNumberTV.setBackgroundColor(0x33ffffff);
 //        disPlayNumberTV.setBackgroundColor(Color.parseColor("White"));
@@ -108,4 +113,19 @@ public class Card extends FrameLayout {
         Animation animation = AnimationUtils.loadAnimation(context,R.anim.move);
         disPlayNumberTV.startAnimation(animation);
     }
+
+
+//    private void zoomUpAnimation(TextView tv){
+//        AnimationSet animationSet = new AnimationSet(true);
+////        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f,1.15f,1.0f,1.15f,
+////                Animation.RELATIVE_TO_SELF,0.5f,
+////                Animation.RELATIVE_TO_SELF,0.5f);
+//        ScaleAnimation scaleAnimation = new ScaleAnimation(0.8f,1.15f,0.8f,1.15f,
+//                Animation.RELATIVE_TO_SELF,0.5f,
+//                Animation.RELATIVE_TO_SELF,0.5f);
+//        scaleAnimation.setDuration(5000);
+//        animationSet.addAnimation(scaleAnimation);
+//        animationSet.setFillAfter(false);
+//        tv.startAnimation(animationSet);
+//    }
 }
