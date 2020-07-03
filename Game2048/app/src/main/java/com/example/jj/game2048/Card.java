@@ -23,11 +23,13 @@ public class Card extends FrameLayout {
     private Context context;
     private int num  = 0;
     public TextView disPlayNumberTV;
+
 //    private Button aButton;
 
     public Card(@NonNull Context context) {
         super(context);
         this.context = context;
+
 //        aButton = new Button(getContext());
 //        aButton.setText("a");
 //        aButton.setWidth(10);
@@ -37,6 +39,8 @@ public class Card extends FrameLayout {
         disPlayNumberTV.setTextSize(40);
         disPlayNumberTV.setGravity(Gravity.CENTER);
         disPlayNumberTV.setBackgroundResource(R.drawable.game_cell_border_layout);
+        disPlayNumberTV.getPaint().setFakeBoldText(true);
+//        disPlayNumberTV.setTextColor(Color.parseColor("red"));
 //        disPlayNumberTV.setPadding(15,15,0,0);
 //        disPlayNumberTV.setBackgroundColor(0x33ffffff);
 //        disPlayNumberTV.setBackgroundColor(Color.parseColor("White"));
@@ -99,6 +103,11 @@ public class Card extends FrameLayout {
             }
         }
 
+        if(num>=8){
+            disPlayNumberTV.setTextColor(Color.parseColor("#f9f6f2"));
+        }else{
+            disPlayNumberTV.setTextColor(Color.parseColor("#776e65"));
+        }
     }
 
     public boolean equals(Card card) {

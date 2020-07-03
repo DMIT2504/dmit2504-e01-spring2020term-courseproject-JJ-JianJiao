@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Game2048</string>
     <string name="score">SCORE</string>
-    <string name="best">BEST</string>
+    <string name="best">&#160;BEST&#160;</string>
+    <string name="join_the_numbers_and_get_to_the_2048_tile">Join the numbers and\nget to the 2048 tile!</string>
+    <string name="new_game">NEW GAME</string>
+
+    <!-- Confirmation dialog-->
+    <string name="reset">Reset</string>
+    <string name="continue_game">Cancel</string>
+    <string name="reset_dialog_title">Reset game?</string>
+    <string name="reset_dialog_message">Are you sure you wish to reset the game?</string>
+    <string name="game_over">Game Over!</string>
 </resources>

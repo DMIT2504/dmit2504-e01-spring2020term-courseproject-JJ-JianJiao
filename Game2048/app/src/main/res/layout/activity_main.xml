@@ -18,12 +18,15 @@
         android:paddingRight="20dp">
 
         <TextView
+            android:id="@+id/game2048_name_title_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2048"
-            android:textSize="70sp"
             android:layout_marginRight="40dp"
-            android:id="@+id/game2048_name_title_textview"/>
+            android:alpha="20"
+            android:clickable="true"
+            android:text="2048"
+            android:textColor="#776e65"
+            android:textSize="70sp" />
 
         <LinearLayout
             android:id="@+id/score_linear_layout"
@@ -50,7 +53,6 @@
                 android:layout_height="match_parent"
                 android:textSize="25sp"
                 tools:text="2048"
-                android:text="2048"
                 android:textColor="#bbada0"
                 android:textAlignment="center"/>
 
@@ -80,7 +82,6 @@
                 android:layout_height="match_parent"
                 android:textSize="25sp"
                 tools:text="4096"
-                android:text="2048"
                 android:textColor="#bbada0"
                 android:textAlignment="center"/>
 
@@ -88,6 +89,36 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:lineSpacingExtra="8sp"
+            android:text="@string/join_the_numbers_and_get_to_the_2048_tile"/>
+
+        <Button
+            android:id="@+id/start_new_game_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="80dp"
+            android:background="@drawable/new_game_button_background"
+            android:onClick="startNewGameOnClick"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/new_game"
+            android:textColor="#f9f6f2"
+            android:stateListAnimator="@animator/new_game_button_state_change"/>
+
+
+    </LinearLayout>
     <com.example.jj.game2048.GameView
         android:id="@+id/gameMainView"
         android:layout_width="1020px"
@@ -95,7 +126,7 @@
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
         android:background="@drawable/game_board_layout"
-        android:layout_marginTop="30dp"></com.example.jj.game2048.GameView>
+        android:layout_marginTop="30dp"/>
 
 
 </LinearLayout>
