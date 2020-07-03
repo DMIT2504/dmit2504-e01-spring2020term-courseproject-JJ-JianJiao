@@ -6,6 +6,7 @@ import android.animation.AnimatorInflater;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity getMainActivity() {
         return mainActivity;
     }
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

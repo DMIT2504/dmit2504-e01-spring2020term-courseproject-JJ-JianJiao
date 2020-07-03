@@ -80,6 +80,8 @@ public class GameView extends GridLayout {
             private float startY;
             private float offSetX;
             private float offSetY;
+            //Ref: https://blog.csdn.net/jianesrq0724/article/details/54908119  (Chinese)
+            //https://developer.android.com/reference/android/view/MotionEvent
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()){
@@ -113,6 +115,7 @@ public class GameView extends GridLayout {
                     default:
                         break;
                 }
+                //if return false, only run the Action.Down. If return true, run Action_UP,DOWN,MOVE
                 return true;
             }
         });
