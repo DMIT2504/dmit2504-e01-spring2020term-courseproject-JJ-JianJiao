@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Game2048</string>
-    <string name="score">SCORE</string>
-    <string name="best">&#160;BEST&#160;</string>
-    <string name="join_the_numbers_and_get_to_the_2048_tile">Join the numbers and\nget to the 2048 tile!</string>
+    <string name="score">&#160;SCORE&#160;</string>
+    <string name="best">&#160;&#160;&#160;BEST&#160;&#160;&#160;</string>
+    <string name="join_the_numbers_and_get_to_the_2048_tile">Join the numbers and get to the <b>2048 tile!</b></string>
     <string name="new_game">NEW GAME</string>
 
     <!-- Confirmation dialog-->
