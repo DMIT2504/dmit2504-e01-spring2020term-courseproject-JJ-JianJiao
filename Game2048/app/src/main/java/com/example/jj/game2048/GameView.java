@@ -41,7 +41,7 @@ public class GameView extends GridLayout {
     private Context context;
     private final Paint paint = new Paint();
 
-    private Card[][] cardsMap = new Card[4][4];
+    public Card[][] cardsMap = new Card[4][4];
     private List<Point> emptyPoints = new ArrayList<>();
 
     public GameView(Context context) {
@@ -127,7 +127,8 @@ public class GameView extends GridLayout {
 
         cardWidth = (Math.min(w,h) - 30) / 4;
         addCards(cardWidth,cardWidth);
-        startGame();
+//        startGame();
+        initStartGame();
     }
 
     private void addCards(int width, int height){
@@ -143,6 +144,24 @@ public class GameView extends GridLayout {
                 addView(card,width,height);
                 cardsMap[row][col] = card;
             }
+        }
+    }
+
+    private void initStartGame(){
+
+        //MainActivity.getMainActivity().clearScore();
+        boolean allClear = true;
+        for(int x = 0; x < 4; x++ ){
+            for(int y = 0; y < 4; y++){
+                cardsMap[x][y].setNum(MainActivity.getMainActivity().gameBoardStateNumber[x][y]);
+                if(cardsMap[x][y].getNum()!=0){
+                    allClear = false;
+                }
+            }
+        }
+        if(allClear){
+            addRandomNum();
+            addRandomNum();
         }
     }
 

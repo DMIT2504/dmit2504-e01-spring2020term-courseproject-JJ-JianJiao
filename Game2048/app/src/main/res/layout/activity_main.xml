@@ -62,28 +62,28 @@
             android:id="@+id/best_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/score_linear_layout"
             android:background="@drawable/score_best_layout_border"
-            android:layout_toRightOf="@+id/score_linear_layout">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/lable_best_textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/best"
-                android:textSize="16sp"
+                android:textAlignment="center"
                 android:textColor="#bbada0"
-                android:textAlignment="center"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/displayBest_textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="25sp"
-                tools:text="4096"
+                android:textAlignment="center"
                 android:textColor="#bbada0"
-                android:textAlignment="center"/>
+                android:textSize="25sp"
+                tools:text="4096" />
 
         </LinearLayout>
 

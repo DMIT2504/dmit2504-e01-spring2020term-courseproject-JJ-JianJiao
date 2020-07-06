@@ -1,5 +1,6 @@
 package com.example.jj.game2048;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.AnimatorInflater;
@@ -16,7 +17,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -25,10 +28,12 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static MainActivity mainActivity = null;
-
+    public int[][] gameBoardStateNumber = new int[4][4];
 
 
     public GameView mGameView;
@@ -142,20 +147,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        bestScore = sharedPreferences.getInt("best", 0);
-        showBestScore();
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        bestScore = sharedPreferences.getInt("best", 0);
 
+        loadGameBoardState();
+        showBestScore();
+        showScore();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor =sharedPreferences.edit();
-        editor.putInt("best", bestScore);
-        //editor.putBoolean("switch_on_off", false);
-        editor.commit();
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor editor =sharedPreferences.edit();
+//        editor.putInt("best", bestScore);
+//        editor.putBoolean("switch_on_off", false);
+//        editor.commit();
+
+        saveGameBoardState();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveGameBoardState();
     }
 
     public void startNewGameOnClick(View view) {
@@ -188,10 +203,46 @@ public class MainActivity extends AppCompatActivity {
         StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(this,R.animator.game2048_game_title_state_change);
         game2048NameTextview.setStateListAnimator(stateListAnimator);
     }
+
     private void initNewButtonOnTouchAnim() {
         int[] attrs = new int[]{R.drawable.new_game_button_background};
         TypedArray typedArray = obtainStyledAttributes(attrs);
         int backgroundResource = typedArray.getResourceId(0, 0);
         newGameButton.setBackgroundResource(backgroundResource);
+    }
+
+    private void saveGameBoardState(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        Card[][] cardsMap = mGameView.cardsMap;
+
+        for(int x = 0; x < cardsMap.length; x++){
+            for(int y =  0; y < cardsMap[0].length; y++){
+                Log.i(TAG, x + "---" + y + ": " + cardsMap[x][y].getNum());
+                editor.putInt(x + "_" + y, cardsMap[x][y].getNum());
+            }
+        }
+        editor.putInt("best", bestScore);
+        editor.putInt("score", score);
+        editor.commit();
+    }
+
+    private void loadGameBoardState(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        for (int x = 0; x < mGameView.cardsMap.length; x++) {
+            for (int y = 0; y < mGameView.cardsMap[0].length; y++) {
+                int value = sharedPreferences.getInt(x + "_" + y, -1);
+                if (value > 0) {
+                    //mGameView.cardsMap[x][y].setNum(value);
+                    gameBoardStateNumber[x][y] = value;
+                } else {
+                    //mGameView.cardsMap[x][y].setNum(0);
+                    gameBoardStateNumber[x][y] = 0;
+                }
+            }
+        }
+        bestScore = sharedPreferences.getInt("best", 0);
+        score = sharedPreferences.getInt("score", 0);
     }
 }
