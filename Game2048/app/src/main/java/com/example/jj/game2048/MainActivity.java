@@ -2,6 +2,8 @@ package com.example.jj.game2048;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import android.animation.AnimatorInflater;
 import android.animation.ArgbEvaluator;
@@ -9,13 +11,21 @@ import android.animation.ObjectAnimator;
 import android.animation.StateListAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
@@ -35,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity mainActivity = null;
     public int[][] gameBoardStateNumber = new int[4][4];
 
+    private Notification notify;
+    private NotificationManager notifyManager;
+    Bitmap LargeBitmap = null;
+    private static final int NOTIFYID_2048 = 1;
 
     public GameView mGameView;
     private TextView dispPlayScoreTextView;
@@ -115,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        LargeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.notice_2048_logo);
+        notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     public void clearScore(){
@@ -150,9 +167,14 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        bestScore = sharedPreferences.getInt("best", 0);
 
+        //cancel the notification base on the Notification channel ID. other way is call cancelAll() to cancel all notifications which generate by this app
+//        notifyManager.cancel(NOTIFYID_2048);
+        notifyManager.cancelAll();
+
         loadGameBoardState();
         showBestScore();
         showScore();
+
     }
 
     @Override
@@ -163,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 //        editor.putInt("best", bestScore);
 //        editor.putBoolean("switch_on_off", false);
 //        editor.commit();
-
+        generateNotification();
         saveGameBoardState();
     }
 
@@ -244,5 +266,27 @@ public class MainActivity extends AppCompatActivity {
         }
         bestScore = sharedPreferences.getInt("best", 0);
         score = sharedPreferences.getInt("score", 0);
+    }
+
+    private void generateNotification(){
+        Log.d(TAG, "generateNotification()");
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+        PendingIntent pendingMainActivityIntent = PendingIntent.getActivity(getApplicationContext(), 0, mainActivityIntent, 0);
+
+        Notification.Builder mBuilder = new Notification.Builder(this);
+        mBuilder.setContentTitle("2048 Game")                        //setting title
+                .setContentText("HOW TO PLAY: Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!")//setting content
+                .setSubText("---- design by JJ")                    //setting subtext
+//                .setTicker("this method is for android 5.0 or earlier version")             // work for Android 5.0（L）
+                .setWhen(System.currentTimeMillis())           //setting time
+                .setSmallIcon(R.mipmap.ic_launcher)            //setting small icon which is on the notification bar
+                .setLargeIcon(LargeBitmap)                     //setting the large icon which is on the left of Notification window
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)    //setting light and vibrate
+                .setSound(uri)  //setting notice sound
+                .setAutoCancel(true)                           //setting allow click to cancel the notification
+                .setContentIntent(pendingMainActivityIntent);                        //setting PendingIntent
+        notify = mBuilder.build();
+        notifyManager.notify(NOTIFYID_2048, notify);
     }
 }
