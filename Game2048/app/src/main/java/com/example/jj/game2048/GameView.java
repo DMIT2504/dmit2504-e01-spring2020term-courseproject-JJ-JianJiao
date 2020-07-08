@@ -427,9 +427,6 @@ public class GameView extends GridLayout {
 
     private void zoomUpAnimation(Card card,float toX, float toY){
         AnimationSet animationSet = new AnimationSet(true);
-//        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f,1.15f,1.0f,1.15f,
-//                Animation.RELATIVE_TO_SELF,0.5f,
-//                Animation.RELATIVE_TO_SELF,0.5f);
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.8f,toX,0.8f,toY,
                 Animation.RELATIVE_TO_SELF,0.5f,
                 Animation.RELATIVE_TO_SELF,0.5f);
@@ -441,7 +438,12 @@ public class GameView extends GridLayout {
 
 
     private void rotateAnimation(Card card,int rotationToDegress){
-        RotateAnimation animation = new RotateAnimation(0, rotationToDegress, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        RotateAnimation animation = new RotateAnimation(0,
+                rotationToDegress,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0.5f);
         animation.setDuration(500);
         animation.setInterpolator(context, android.R.anim.anticipate_interpolator);
         card.disPlayNumberTV.startAnimation(animation);

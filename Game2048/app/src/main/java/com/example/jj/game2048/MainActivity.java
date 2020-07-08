@@ -43,7 +43,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static MainActivity mainActivity = null;
-    public int[][] gameBoardStateNumber = new int[4][4];
+//    public int[][] gameBoardStateNumber = new int[4][4];
+    public int[][] gameBoardStateNumber = {{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1}};
 
     private Notification notify;
     private NotificationManager notifyManager;
@@ -121,10 +122,13 @@ public class MainActivity extends AppCompatActivity {
         game2048NameTextview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                ObjectAnimator objectAnimator = ObjectAnimator.ofInt(game2048NameTextview,"textColor",Color.parseColor("#776e65"),
-                        Color.parseColor("#2196f3"),Color.parseColor("#ffea00"), Color.parseColor("#776e65"));
+                ObjectAnimator objectAnimator = ObjectAnimator.ofInt(game2048NameTextview,"textColor",
+                        Color.parseColor("#776e65"),
+                        Color.parseColor("#2196f3"),
+                        Color.parseColor("#ffea00"),
+                        Color.parseColor("#776e65"));
                 objectAnimator.setDuration(5000);
-                objectAnimator.setEvaluator(new ArgbEvaluator());
+                    objectAnimator.setEvaluator(new ArgbEvaluator());
                 objectAnimator.start();
                 return false;
             }
@@ -167,8 +171,10 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        bestScore = sharedPreferences.getInt("best", 0);
 
-        //cancel the notification base on the Notification channel ID. other way is call cancelAll() to cancel all notifications which generate by this app
-//        notifyManager.cancel(NOTIFYID_2048);
+        //cancel the notification base on the Notification channel ID.
+        notifyManager.cancel(NOTIFYID_2048);
+
+        // other way is call cancelAll() to cancel all notifications which generate by this app
         notifyManager.cancelAll();
 
         loadGameBoardState();
@@ -272,11 +278,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "generateNotification()");
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
-        PendingIntent pendingMainActivityIntent = PendingIntent.getActivity(getApplicationContext(), 0, mainActivityIntent, 0);
+        PendingIntent pendingMainActivityIntent = PendingIntent.getActivity(getApplicationContext(),
+                0, mainActivityIntent, 0);
 
         Notification.Builder mBuilder = new Notification.Builder(this);
         mBuilder.setContentTitle("2048 Game")                        //setting title
-                .setContentText("HOW TO PLAY: Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!")//setting content
+                .setContentText("HOW TO PLAY: Use your arrow keys to move the tiles. When two tiles " +
+                        "with the same number touch, they merge into one!")//setting content
                 .setSubText("---- design by JJ")                    //setting subtext
 //                .setTicker("this method is for android 5.0 or earlier version")             // work for Android 5.0（L）
                 .setWhen(System.currentTimeMillis())           //setting time

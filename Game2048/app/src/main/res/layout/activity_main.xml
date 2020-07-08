@@ -26,7 +26,8 @@
             android:clickable="true"
             android:text="2048"
             android:textColor="#776e65"
-            android:textSize="70sp" />
+            android:textSize="70sp"
+            android:stateListAnimator="@animator/game2048_game_title_state_change"/>
 
         <LinearLayout
             android:id="@+id/score_linear_layout"
@@ -124,7 +125,8 @@
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
         android:background="@drawable/game_board_layout"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        tools:ignore="PxUsage" />
 
 
 </LinearLayout>
