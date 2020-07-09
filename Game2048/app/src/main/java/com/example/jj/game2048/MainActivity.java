@@ -24,6 +24,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
     private NotificationManager notifyManager;
     Bitmap LargeBitmap = null;
     private static final int NOTIFYID_2048 = 1;
+
+    //new function
+    private MediaPlayer mediaPlayer;
+    private float speed = 1.0f;
+    private float pitch = 1.0f;
+    private int totalTime = 0;
 
     public GameView mGameView;
     private TextView dispPlayScoreTextView;
@@ -136,6 +144,18 @@ public class MainActivity extends AppCompatActivity {
 
         LargeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.notice_2048_logo);
         notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+
+        //new function:media player
+        mediaPlayer = MediaPlayer.create(this,R.raw.background_music);
+//        mediaPlayer.setLooping(true);
+//        mediaPlayer.seekTo(0);
+//        mediaPlayer.setVolume(0.5f, 0.5f);
+//        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
+//        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setPitch(pitch));
+//        totalTime = mediaPlayer.getDuration();
+        mediaPlayer.start();
+
     }
 
     public void clearScore(){
