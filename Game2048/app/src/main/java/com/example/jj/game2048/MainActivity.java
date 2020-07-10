@@ -1,6 +1,7 @@
 package com.example.jj.game2048;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -30,6 +31,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognitionService;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,10 +43,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private static final int RECOGNIZER_RESULT = 1;
     private static MainActivity mainActivity = null;
 //    public int[][] gameBoardStateNumber = new int[4][4];
     public int[][] gameBoardStateNumber = {{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1}};
@@ -147,14 +152,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         //new function:media player
-        mediaPlayer = MediaPlayer.create(this,R.raw.background_music);
+        //mediaPlayer = MediaPlayer.create(this,R.raw.background_music);
 //        mediaPlayer.setLooping(true);
 //        mediaPlayer.seekTo(0);
 //        mediaPlayer.setVolume(0.5f, 0.5f);
 //        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
 //        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setPitch(pitch));
 //        totalTime = mediaPlayer.getDuration();
-        mediaPlayer.start();
+        //mediaPlayer.start();
 
     }
 
@@ -266,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         for(int x = 0; x < cardsMap.length; x++){
             for(int y =  0; y < cardsMap[0].length; y++){
-                Log.i(TAG, x + "---" + y + ": " + cardsMap[x][y].getNum());
+                //Log.i(TAG, x + "---" + y + ": " + cardsMap[x][y].getNum());
                 editor.putInt(x + "_" + y, cardsMap[x][y].getNum());
             }
         }
@@ -316,5 +321,49 @@ public class MainActivity extends AppCompatActivity {
                 .setContentIntent(pendingMainActivityIntent);                        //setting PendingIntent
         notify = mBuilder.build();
         notifyManager.notify(NOTIFYID_2048, notify);
+    }
+
+    public void micOnClick(View view) {
+        Intent speakIntent =new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speakIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        speakIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak to the mic");
+        startActivityForResult(speakIntent,RECOGNIZER_RESULT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RECOGNIZER_RESULT && resultCode == RESULT_OK)
+        {
+            ArrayList<String> ordersArray =new ArrayList<>();
+            ordersArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+            String bestOrder = ordersArray.get(0);
+            Log.i(TAG, "onActivityResult_score before: " + score);
+            Log.i(TAG, "onActivityResult: "+ bestOrder);
+            if(bestOrder.contains("left")|| bestOrder.contains("left")){
+//                Log.i(TAG, "onActivityResult_score: " + score);
+                mGameView.swipeLeft();
+            }else if(bestOrder.contains("right")|| bestOrder.contains("right")){
+//                Log.i(TAG, "onActivityResult_score: " + score);
+                mGameView.swipeRight();
+            }else if(bestOrder.contains("top") || bestOrder.contains("up")){
+//                Log.i(TAG, "onActivityResult_score: " + score);
+                mGameView.swipeUp();
+            }else if(bestOrder.contains("down") || bestOrder.contains("bottom")){
+//                Log.i(TAG, "onActivityResult_score: " + score);
+                mGameView.swipeDown();
+            }else{
+                Log.i(TAG, "onActivityResult: NO MATCH WORDS");
+            }
+            Log.i(TAG, "onActivityResult_score after: " + score);
+//            showScore();
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("score", score);
+            editor.commit();
+        }
+
     }
 }

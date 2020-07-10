@@ -194,16 +194,16 @@ public class GameView extends GridLayout {
         cardsMap[point.x][point.y].setNum(Math.random()>0.1?2:4);
     }
 
-    private void swipeLeft(){
+    public void swipeLeft(){
 
         boolean merge = false;
 
-        for(int row = 0; row < 4; row++){
-            for(int col = 0; col < 4; col++){
-                Log.i(TAG,"CardsMap[" + row + "][" + col + "] = " + cardsMap[row][col].getNum());
-            }
-
-        }
+//        for(int row = 0; row < 4; row++){
+//            for(int col = 0; col < 4; col++){
+//                Log.i(TAG,"CardsMap[" + row + "][" + col + "] = " + cardsMap[row][col].getNum());
+//            }
+//
+//        }
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
@@ -249,7 +249,7 @@ public class GameView extends GridLayout {
         }
     }
 
-    private void swipeRight(){
+    public void swipeRight(){
 
         boolean merge = false;
         for (int row = 0; row < 4; row++) {
@@ -288,7 +288,7 @@ public class GameView extends GridLayout {
         }
     }
 
-    private void swipeUp(){
+    public void swipeUp(){
         boolean merge = false;
         for (int col = 0; col < 4; col++) {
             for (int row = 0; row < 4; row++) {
@@ -326,7 +326,7 @@ public class GameView extends GridLayout {
         }
     }
 
-    private void swipeDown(){
+    public void swipeDown(){
         boolean merge = false;
         for (int col = 0; col < 4; col++) {
             for (int row = 3; row >= 0; row--) {
