@@ -150,17 +150,47 @@ public class MainActivity extends AppCompatActivity {
         LargeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.notice_2048_logo);
         notifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
+        backgroundMusic(1);
+    }
+
+    public void backgroundMusic(int type){
+
+        switch(type){
+            case 1:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_warning);
+                break;
+            case 2:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_gameover);
+                break;
+            case 3:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_coin);
+                break;
+            case 4:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_fireball);
+                break;
+            case 5:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_bump);
+                break;
+            case 6:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_powerup);
+                break;
+            case 7:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_breakblock);
+                break;
+            case 8:
+                mediaPlayer = MediaPlayer.create(this,R.raw.smb_powerup_appears);
+                break;
+        }
 
         //new function:media player
-        //mediaPlayer = MediaPlayer.create(this,R.raw.background_music);
+//        mediaPlayer = MediaPlayer.create(this,R.raw.smb_warning);
 //        mediaPlayer.setLooping(true);
 //        mediaPlayer.seekTo(0);
 //        mediaPlayer.setVolume(0.5f, 0.5f);
 //        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
 //        mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setPitch(pitch));
 //        totalTime = mediaPlayer.getDuration();
-        //mediaPlayer.start();
-
+        mediaPlayer.start();
     }
 
     public void clearScore(){
@@ -177,6 +207,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addScore(int earnScore){
+
+        if (earnScore>=128){
+            backgroundMusic(8);
+        }else if(earnScore>=64){
+            backgroundMusic(6);
+
+        }else if(earnScore>=32){
+            backgroundMusic(5);
+        }else if(earnScore>=16){
+            backgroundMusic(4);
+        }else if(earnScore>=8){
+            backgroundMusic(3);
+        }else if(earnScore>=4){
+            backgroundMusic(7);
+        }
+
         score += earnScore;
         if(score>=bestScore){
             bestScore = score;
@@ -186,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Reset() {
+//        backgroundMusic(1);
         mGameView.resetGame();
         clearScore();
     }

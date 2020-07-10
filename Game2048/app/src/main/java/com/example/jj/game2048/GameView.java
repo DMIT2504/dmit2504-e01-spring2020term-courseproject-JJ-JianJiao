@@ -167,6 +167,7 @@ public class GameView extends GridLayout {
 
     private void startGame(){
 
+        MainActivity.getMainActivity().backgroundMusic(1);
         //MainActivity.getMainActivity().clearScore();
 
         for(int i = 0; i < 4; i++ ){
@@ -395,6 +396,8 @@ public class GameView extends GridLayout {
 //                    startGame();
 //                }
 //            }).show();
+
+            MainActivity.getMainActivity().backgroundMusic(2);
             AlertDialog mDialog =  new AlertDialog.Builder(this.getContext())
                     .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
                         @Override
